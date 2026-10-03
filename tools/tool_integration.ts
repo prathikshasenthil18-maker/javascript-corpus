@@ -26,7 +26,7 @@ const TOOLS_DIR = path.join(REPO_ROOT, "tools");
 export const NODE_TARGET = "20";
 export const TYPESCRIPT_VERSION = "5.9.3";
 export const BUNDLER_NAME = "vite";
-export const PACKAGE_MANAGER = "bun";
+export const PACKAGE_MANAGER = "npm";
 export const ARCHITECTURE = "Monolith";
 
 interface Wiring {
@@ -79,7 +79,7 @@ function runnerFor(dir: string): string | null {
 
 function banner(): number {
   console.log(
-    `=== Tool integration -- branch TS-111 ` +
+    `=== Tool integration -- branch TS_V20_VITE_NPM_MONO ` +
       `(Node ${NODE_TARGET} / TypeScript ${TYPESCRIPT_VERSION} / ` +
       `${BUNDLER_NAME} / ${PACKAGE_MANAGER} / ${ARCHITECTURE}) ===`,
   );

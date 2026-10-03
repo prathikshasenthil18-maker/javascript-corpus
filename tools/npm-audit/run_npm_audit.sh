@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# npm audit / npm ls runner -- branch TS-111 (Node 20, bun, Monolith).
+# npm audit / npm ls runner -- branch TS_V20_VITE_NPM_MONO (Node 20, npm, Monolith).
 set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$REPO_ROOT"
@@ -18,18 +18,14 @@ pkgver() {
 # 703-byte pnpm-lock.yaml stub with no packages: section, so --frozen-lockfile
 # failed and audit ran against a freshly resolved graph instead of the
 # committed one.
-# bun is a standalone binary, not an npm package:
-#   curl -fsSL https://bun.sh/install | bash          (or the GitHub release zip)
-# It resolves npm packages exactly like the others; the project still RUNS on
-# Node 12. bun does not enforce engines.node at install time.
 echo "[audit] proving the committed lockfile installs frozen"
-bun install --frozen-lockfile
+npm ci --ignore-scripts
 echo
 echo "[audit] dependency tree:"
-bun pm ls || true
+npm ls --all || true
 echo
 echo "[audit] vulnerabilities against the committed graph:"
-bun audit --json || true > reports/audit.json 2>/dev/null || true
+npm audit --json > reports/audit.json || true
 node -e "
   let a; try { a = require('./reports/audit.json'); } catch (e) { console.log('[audit] no JSON report'); process.exit(0); }
   const m = (a.metadata && a.metadata.vulnerabilities) || {};

@@ -2,21 +2,23 @@
   "name": "typescript-n20-ts-111",
   "version": "1.0.0",
   "private": true,
-  "description": "Node 20 / vite / bun / Monolith tool-evaluation repository (branch TS-111).",
+  "description": "Node 20 / vite / npm / Monolith tool-evaluation repository (branch TS_V20_VITE_NPM_MONO).",
   "license": "MIT",
   "engines": {
-    "node": ">=20.19 <21"
+    "node": ">=20.20.2",
+    "npm": ">=10.8.2"
   },
-  "packageManager": "bun@1.3.13",
+  "packageManager": "npm@10.8.2",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
     "build": "bash tools/typescript/run_tsc.sh",
-    "bundle": "bash tools/esbuild/run_esbuild.sh",
+    "bundle": "bash tools/vite/run_vite.sh",
     "test": "bash tools/mocha/run_mocha.sh",
     "coverage": "bash tools/c8/run_c8.sh",
     "coverage:nyc": "bash tools/nyc/run_nyc.sh",
     "lint": "bash tools/eslint/run_eslint.sh",
+    "audit": "npm audit --json",
     "tools:verify": "ts-node tools/tool_integration.ts --verify",
     "tools:list": "ts-node tools/tool_integration.ts --list",
     "tools:all": "ts-node tools/tool_integration.ts --run-all",

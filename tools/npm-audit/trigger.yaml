@@ -3,11 +3,11 @@ label: "npm audit / npm ls"
 language: typescript
 node_version: "20"
 typescript_version: "5.9.3"
-branch: "TS-111"
+branch: "TS_V20_VITE_NPM_MONO"
 scenario: "1 - Monolithic"
 architecture: "Monolith"
 module: "flat"
-package_manager: "bun"
+package_manager: "npm"
 bundler: "vite"
 project: package.json
 tests: tests/
@@ -15,5 +15,5 @@ tools_project: tools/
 pinned-version: null  # not an npm package -- see the runner
 config: null
 target_files: [package.json]
-command: "bun audit --json || true"
+command: "npm audit --json || true"
 expects_findings: true

@@ -1,9 +1,12 @@
-# TypeScript Order Platform -- Monolith (TS_V20_VITE_BUN_MONO)
+# TypeScript Order Platform -- Monolith (TS_V20_VITE_NPM_MONO)
 
 Tool-evaluation repository for **Node 20**, bundled with **vite**,
-managed with **bun**, in a **Monolith** layout.
+managed with **npm**, in a **Monolith** layout.
 
-This is branch **TS_V20_VITE_BUN_MONO** of the consolidated `typescript-corpus` repository, which holds all 216 TypeScript branches across every Node version, bundler, package manager and architecture combination in this corpus.
+This is branch **TS_V20_VITE_NPM_MONO** of the consolidated `typescript-corpus`
+repository. It is the TypeScript counterpart of `JS_V20_VITE_NPM_MONO`:
+same Node family, same Vite bundler, same npm package manager, same monolith
+layout.
 
 ## Project type
 
@@ -12,35 +15,48 @@ This is branch **TS_V20_VITE_BUN_MONO** of the consolidated `typescript-corpus` 
 - **Scenario:** 1 - Monolithic
 - **Architecture:** Monolith
 - **Module layout:** flat
-- **Bundler:** Vite 2.9.18 (Rollup linker + its own esbuild 0.14.54 transform)
-- **Package manager:** bun 1.3.13
+- **Bundler:** Vite 8.2.2 (Rollup linker + its own esbuild transform)
+- **Package manager:** npm 10.8.2
 - **Source root:** `src`
 
-Node 12 is end-of-life, and that is deliberate: it pins the entire toolchain to
-the last release of each tool that still supports it. Every version in this
-repository was resolved against the live npm registry and then executed on a
-real Node 20.20.2 interpreter. None was written from memory.
+Every version in this repository was resolved against the live npm registry
+and then executed on a real Node 20.20.2 interpreter. None was written from
+memory.
+
+## Branches
+
+| Variable | This branch |
+| --- | --- |
+| Branch | `TS_V20_VITE_NPM_MONO` |
+| Node.js | 20.20.2 (family V20) |
+| Bundler | Vite |
+| Package manager | npm |
+| Bundled npm | 10.8.2 |
+| Architecture | Monolith |
+| Source root | `src` |
 
 ## Supported tools
 
-26 tool families are wired. Each has a folder under `tools/` containing a
+29 tool families are wired. Each has a folder under `tools/` containing a
 `trigger.yaml` manifest, a runner, and its configuration.
 
 | Family | Pinned | Family | Pinned |
 |---|---|---|---|
-| TypeScript (tsc) | 5.0.4 | ts-morph | 18.0.0 |
+| TypeScript (tsc) | 5.9.3 | ts-morph | 27.0.2 |
 | vite | 8.2.2 | ts-prune | 0.10.3 |
-| mocha | 9.2.2 | madge | 5.0.2 |
-| c8 (coverage, primary) | 8.0.1 | dependency-cruiser | 11.18.0 |
-| nyc + ts-node (cross-check) | 15.1.0 | Stryker | 5.6.1 |
-| eslint | 8.57.1 | fast-check | 4.9.0 |
-| @typescript-eslint | 5.62.0 | cdxgen | 8.6.3 |
-| eslint-plugin-sonarjs | 0.15.0 | ORT (cdxgen licence proxy) | n/a |
-| eslint-plugin-security | 2.1.1 | npm-check-updates | 12.5.12 |
-| eslint-scope | 7.2.2 | bun audit / ls | 1.3.13 |
-| jscpd | 3.2.1 | OpenTelemetry sdk-node | 0.29.2 |
+| mocha | 11.8.0 | madge | 8.0.0 |
+| c8 (coverage, primary) | 12.0.0 | dependency-cruiser | 17.4.3 |
+| nyc + ts-node (cross-check) | 18.0.0 | Stryker | 9.6.1 |
+| eslint | 10.9.1 | fast-check | 4.9.0 |
+| typescript-eslint | 8.68.0 | cdxgen | 12.8.4 |
+| eslint-plugin-sonarjs | 4.2.0 | ORT (cdxgen licence proxy) | n/a |
+| eslint-plugin-security | 4.0.1 | npm-check-updates | 22.2.9 |
+| eslint-scope | 9.1.2 | npm audit / ls | 10.8.2 |
+| jscpd | 5.0.16 | OpenTelemetry sdk-node | 0.221.0 |
 | Grype | v0.110.0 (binary) | Lizard | pip |
 | pydriller | pip | GitHub Advisories + API | REST |
+| knip | 6.32.2 | vitest + @vitest/coverage-v8 | 4.1.11 |
+| @biomejs/biome | 2.5.10 | | |
 
 ### Tools deliberately NOT wired
 
@@ -48,26 +64,25 @@ Skipping these is a finding, not an omission. See [`dataset.json`](dataset.json)
 
 | Tool | Reason |
 |---|---|
-| knip | no published version supports Node 12 |
-| vitest + @vitest/coverage-v8 | no published version supports Node 12 |
-| @biomejs/biome | oldest published version already requires Node >=14.21.3 |
 | OSV-Scanner | `api.osv.dev` unreachable -- 403 at the egress proxy |
 | npm downloads API | `api.npmjs.org` unreachable -- 403 at the egress proxy |
-| npm-check-updates 19.6.6 | requires Node >=18; 12.5.12 is pinned instead |
 
 Declaring any of these would have produced a metric that cannot be computed.
 
 ## Build
 
 ```bash
-# bun is a standalone binary, not an npm package -- see tools/npm-audit/run_npm_audit.sh
-bun install --frozen-lockfile
-make build
+# Corepack packageManager is npm@10.8.2; lockfile is package-lock.json
+npm install
+npm run build
 ```
 
-`make build` type-checks with `tsc --noEmit`, emits CommonJS + declarations to
-`dist/`, then bundles with **Vite 2.9.18 (Rollup linker + its own esbuild 0.14.54 transform)** and **executes the bundle**.
-Emitting is not proof; running it is.
+`npm run build` type-checks with `tsc --noEmit`, emits CommonJS + declarations
+to `dist/`, then bundles with **Vite 8.2.2 (Rollup linker + its own esbuild
+transform)** and **executes the bundle**. Emitting is not proof; running it is.
+
+There is no Makefile. A Makefile would be classified as a native MAKE project
+and hide the npm lockfile from Testable's primary Node profile.
 
 ## Run
 
@@ -78,8 +93,9 @@ node dist/src/index.js
 ## Test
 
 ```bash
-make test        # mocha over tests/
-make coverage    # c8 (primary) AND nyc + ts-node (cross-check)
+npm test           # mocha over tests/
+npm run coverage   # c8 (primary)
+npm run coverage:nyc
 ```
 
 Both coverage tools must report non-zero. They deliberately disagree: c8 reads
@@ -109,7 +125,6 @@ src/
 
 `dependency-cruiser` enforces the layering: `models/` may not import
 `services/`, and nothing outside `analysis/` may import `analysis/`.
-
 
 ## Planted fixtures
 
@@ -149,7 +164,7 @@ A CI file that only installs and tests would leave the declared tools unproven.
 ## Layout
 
 ```
-typescript-corpus/  (TS_V20_VITE_BUN_MONO)
+typescript-corpus/  (TS_V20_VITE_NPM_MONO)
 |-- .github/  (1 files)
 |-- src/  (15 files)
 |-- tests/  (5 files)
@@ -160,12 +175,11 @@ typescript-corpus/  (TS_V20_VITE_BUN_MONO)
 |-- .madgerc
 |-- .npmrc
 |-- .nvmrc
-|-- Makefile
 |-- biome.json
-|-- bunfig.toml
 |-- dataset.json
 |-- eslint.config.mjs
 |-- knip.json
+|-- package-lock.json
 |-- package.json
 |-- tsconfig.build.json
 |-- tsconfig.json
@@ -178,5 +192,5 @@ typescript-corpus/  (TS_V20_VITE_BUN_MONO)
 Every claim in this README is checked by `ts-node tools/full_check.ts`, which
 reads its expectations **from the repository** rather than from a hard-coded
 list -- including that `.nvmrc`, `package.json` engines, `dataset.json`, the CI
-workflow and all 26 `trigger.yaml` manifests agree on the Node version, the
+workflow and all 29 `trigger.yaml` manifests agree on the Node version, the
 branch, and the architecture.

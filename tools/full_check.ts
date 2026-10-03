@@ -48,8 +48,8 @@ if (dataset.nodeVersion !== nodeMajor) {
   fail(`dataset.json nodeVersion ${dataset.nodeVersion} != .nvmrc major ${nodeMajor}`);
 } else ok(`.nvmrc (${nvmrc}) agrees with dataset.json nodeVersion`);
 
-if (!String(pkg.engines && pkg.engines.node).includes("12")) {
-  fail(`package.json engines.node (${pkg.engines && pkg.engines.node}) does not target Node 12`);
+if (!String(pkg.engines && pkg.engines.node).includes("20")) {
+  fail(`package.json engines.node (${pkg.engines && pkg.engines.node}) does not target Node 20`);
 } else ok(`package.json engines.node = ${pkg.engines.node}`);
 
 const ci = exists(".github/workflows/ci.yml") ? read(".github/workflows/ci.yml") : "";
